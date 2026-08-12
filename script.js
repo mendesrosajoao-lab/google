@@ -3,17 +3,21 @@
 const menuBtn = document.getElementById("menuBtn");
 const navLinks = document.getElementById("navLinks");
 
-menuBtn.addEventListener("click", () => {
+menuBtn.addEventListener("click", function () {
     navLinks.classList.toggle("active");
 });
 
 
-// FECHAR MENU AO CLICAR EM UM LINK
+// FECHAR MENU AO CLICAR
 
-document.querySelectorAll(".nav-links a").forEach(link => {
-    link.addEventListener("click", () => {
+const links = document.querySelectorAll("#navLinks a");
+
+links.forEach(function (link) {
+
+    link.addEventListener("click", function () {
         navLinks.classList.remove("active");
     });
+
 });
 
 
@@ -22,61 +26,46 @@ document.querySelectorAll(".nav-links a").forEach(link => {
 const answers = document.querySelectorAll(".answer");
 const result = document.getElementById("quizResult");
 
-answers.forEach(answer => {
+answers.forEach(function (answer) {
 
-    answer.addEventListener("click", () => {
+    answer.addEventListener("click", function () {
 
-        // Impede novas respostas depois da escolha
-        answers.forEach(button => {
+        answers.forEach(function (button) {
             button.disabled = true;
         });
 
-        const correct = answer.dataset.correct === "true";
+        const correct =
+            answer.getAttribute("data-correct") === "true";
 
         if (correct) {
+
             answer.classList.add("correct");
-            result.textContent = "✓ Correto! O uso de drogas pode afetar diversas áreas da vida do adolescente.";
+
+            result.textContent =
+                "✓ Muito bem! Essa é a resposta correta.";
+
             result.style.color = "#16805f";
+
         } else {
+
             answer.classList.add("wrong");
-            result.textContent = "✗ Essa não é a resposta. Tente aprender mais sobre os efeitos e riscos.";
+
+            result.textContent =
+                "✗ Resposta incorreta. A alternativa correta está destacada.";
+
             result.style.color = "#c43d3d";
 
-            // Mostra a resposta correta
-            answers.forEach(button => {
-                if (button.dataset.correct === "true") {
+            answers.forEach(function (button) {
+
+                if (
+                    button.getAttribute("data-correct") === "true"
+                ) {
                     button.classList.add("correct");
                 }
+
             });
         }
+
     });
 
-});
-
-
-// ANIMAÇÃO DOS CARDS
-
-const animatedElements = document.querySelectorAll(
-    ".card, .prevention-item"
-);
-
-const observer = new IntersectionObserver(
-    (entries) => {
-
-        entries.forEach(entry => {
-
-            if (entry.isIntersecting) {
-                entry.target.classList.add("show");
-            }
-
-        });
-
-    },
-    {
-        threshold: 0.15
-    }
-);
-
-animatedElements.forEach(element => {
-    observer.observe(element);
 });
